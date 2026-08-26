@@ -1,5 +1,5 @@
 export const siteConfig = {
-  url: 'https://example.com',
+  url: 'https://person.deerblock.cn',
   person: {
     name: 'Paul',
     role: '独立开发者',
