@@ -1,4 +1,5 @@
 export const siteConfig = {
+  url: 'https://example.com',
   person: {
     name: 'Paul',
     role: '独立开发者',
