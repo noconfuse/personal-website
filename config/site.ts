@@ -88,8 +88,8 @@ export const siteConfig = {
     ],
   },
   social: [
-    { label: 'GITHUB ↗', href: 'https://github.com/' },
-    { label: 'X ↗', href: 'https://x.com/' },
+    { label: 'GITHUB ↗', href: 'https://github.com/noconfuse' },
+    { label: '公众号 · 所遇非良人', href: '' },
     { label: 'EMAIL ↗', href: 'mailto:hello@leonxlnx.com' },
   ],
 } as const;
