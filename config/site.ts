@@ -1,0 +1,96 @@
+export const siteConfig = {
+  person: {
+    name: 'Paul',
+    role: '独立开发者',
+    location: '上海 / 中国',
+    email: 'hello@leonxlnx.com',
+    intro: '我是 Paul，一个在上海工作的独立开发者。喜欢做有创意、有思考、也有挑战的东西。',
+    aboutLead: '我喜欢做一些有创意、但不只是为了好看的事情。我希望每个作品背后都有思考，也愿意接受足够的挑战。',
+    aboutDetail: '最重要的是先解决真实的问题，其次才是追求自己喜欢的表达。',
+    aboutPageIntro: '一个有趣的独立开发者，正在学习如何把复杂的东西做得简单一点。',
+    aboutPageDetail: '我在意别人的评价，也在意产品真正的价值表达；但如果别人不喜欢，也只能接受，哈哈。',
+    facts: [
+      ['BASE', '上海 / 中国'],
+      ['STATUS', '自由接案中'],
+      ['STACK', 'TypeScript · Swift'],
+      ['COFFEE', '手冲 / 不加糖'],
+    ],
+  },
+  brand: {
+    label: 'PAUL / 独立开发者',
+    footer: '© 2025 PAUL — MADE WITH CURIOSITY',
+  },
+  navigation: [
+    { label: '作品', href: '/projects' },
+    { label: '杂记', href: '/posts' },
+    { label: '关于', href: '/about' },
+  ],
+  home: {
+    eyebrow: '独立开发 · 设计 · 写作',
+    headline: '把想法做成',
+    headlineAccent: '值得使用的东西。',
+    primaryCta: '看我的作品 ↘',
+    secondaryCta: '认识我',
+    orbitLabel: 'MAKE / NOTICE / REPEAT',
+    orbitTags: ['CURRENTLY|EXPLORING_', 'OPEN TO|GOOD IDEAS ✦'],
+    ticker: ['SELECTED WORKS ✳ 2021—2025', 'CODE WITH INTENTION →', 'LESS, BUT BETTER'],
+    featuredProjectLimit: 4,
+    recentPostLimit: 4,
+    workSectionTitle: '精选作品',
+    notesSectionTitle: '最近杂记',
+    notesIntro: '记录一些还没有答案的问题，和路上遇见的风景。',
+    aboutTitle: '你好，我是 {name}。',
+    aboutAccent: '喜欢从零开始。',
+    contactTitle: '有一个想法？',
+    contactAccent: '我们把它做成真的。',
+  },
+  aboutInterview: {
+    eyebrow: 'ABOUT / A CONVERSATION',
+    title: '关于我，\n我是一个有趣的人。',
+    intro: '我想把这里做成一场持续发生的对话：关于我如何工作、相信什么，以及正在把什么交给世界。',
+    questions: [
+      {
+        question: '你为什么做东西？',
+        answer: '因为我喜欢做一些有创意、但不只是为了好看的事情。我希望每个作品背后都有思考，也愿意接受足够的挑战，所以开始自学前端。',
+        principle: '有创意，也要有思考和挑战。',
+        evidence: 'projects',
+      },
+      {
+        question: '你怎么看待好的产品？',
+        answer: '要看具体情况。现在的我会认为，最重要的是先解决真实的问题。其次，我才会追求自己喜欢的表达。',
+        principle: '先解决真实的问题，再做自己喜欢的东西。',
+        evidence: 'projects',
+      },
+      {
+        question: '你如何与不确定性相处？',
+        answer: '我会先把有趣的想法记录下来，等有空的时候去实现。完成之后就分享出去，用别人的评价确认它有没有真正表达出价值。',
+        principle: '记录下来，有空实现，分享出去。',
+        evidence: 'posts',
+      },
+    ],
+    skills: [
+      { name: '产品思考', detail: '先判断它是否解决真实问题，再决定如何表达。' },
+      { name: '交互与视觉', detail: '用低成本做出让自己开心、也让人愿意使用的体验。' },
+      { name: '前端开发', detail: '从 Bootstrap、原生 JavaScript/CSS，到 TypeScript、React、Next.js。' },
+      { name: '持续表达', detail: '做完就分享，在反馈里确认产品真正的价值。' },
+    ],
+    services: [
+      { name: '网站 / Landing Page', detail: '从信息架构、视觉方向到前端实现，做一个真正能代表你的网页。', tags: ['设计方向', '响应式', 'Next.js'] },
+      { name: '产品前端开发', detail: '把已有设计或模糊想法，变成可用、可上线、可继续迭代的产品前端。', tags: ['React', 'TypeScript', '动效'] },
+      { name: '交互与视觉升级', detail: '为已有项目梳理体验，让功能更清晰、界面更有记忆点。', tags: ['UX', 'UI', '体验审查'] },
+    ],
+    process: ['聊清问题', '确定方向', '快速实现', '上线迭代'],
+    showcase: [
+      { label: '作品', href: '/projects', description: '我做过并愿意继续介绍的产品。' },
+      { label: '文章', href: '/posts', description: '关于技术、设计和生活的思考。' },
+      { label: '联系我', href: '/#contact', description: '如果你有一个值得认真做的想法。' },
+    ],
+  },
+  social: [
+    { label: 'GITHUB ↗', href: 'https://github.com/' },
+    { label: 'X ↗', href: 'https://x.com/' },
+    { label: 'EMAIL ↗', href: 'mailto:hello@leonxlnx.com' },
+  ],
+} as const;
+
+export type SiteConfig = typeof siteConfig;

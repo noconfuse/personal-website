@@ -1,0 +1,35 @@
+---
+title: Vision Train
+description: 面向视觉模型的本地一体化工作台。数据准备、标注、训练、评估、导出到部署模板，收口在同一套 Web UI。
+date: 2026-06-15
+type: app
+tags: [Python, Vue, 计算机视觉, 开源]
+status: shipped
+featured: true
+color: ink
+image: /projects/vision_train.png
+---
+
+一个面向视觉模型的本地一体化工作台。把数据准备、标注、训练、评估、导出和部署模板收口在同一套 Web UI 里，围绕「项目 → 数据集 → 标注 → 训练工作流 → 评估 / 导出 / 部署模板」的闭环展开，跨 detect / classify / segment / pose 四类任务。
+
+## 能做什么
+
+**数据准备**
+- 项目管理：按项目隔离数据与训练记录。
+- 数据导入与整理：导入现成数据、划分训练集、清理重复图片、合并数据集。
+- 视频处理：上传视频、预览、抽帧并导入数据集。
+- 图片标注：框选目标、修改类别、批量清理；支持用已有模型生成标注草稿再人工复核。
+- 数据增强：针对样本少的类别生成补强数据，缓解类别不平衡。
+- 数据集版本：发布 / 恢复 / 自动引导数据集版本快照。
+
+**模型训练与上线**
+- 模型训练：以工作流为中心管理多轮训练。
+- 效果检查：查看测试结果，判断是否达到预期。
+- 模型导出与部署：生成适配不同部署环境的模型文件，并基于 `pt` 或导出产物生成 FastAPI / Python SDK / 批处理模板包。
+- 任务中心：统一查看抽帧、标注、训练、测试、导出等后台任务状态。
+
+## 技术实现
+
+前端 Vue 3 + Pinia + Vite + Tailwind CSS，后端 Flask + SQLAlchemy + Ultralytics（PyTorch）+ OpenCV + OpenVINO，数据格式为 YOLO，任务在 worker 子进程中执行，进度通过 SQLite 任务表回写。
+
+单机 / 单项目场景优先，MIT 协议开源，仓库地址：[github.com/noconfuse/vision-train](https://github.com/noconfuse/vision-train) · 在线文档：[vision-train-docs.netlify.app](https://vision-train-docs.netlify.app)
