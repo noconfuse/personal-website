@@ -1,6 +1,14 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { siteConfig } from '@/config/site';
-export const metadata = { title: `关于 — ${siteConfig.person.name}` };
+
+export const metadata: Metadata = {
+  title: '关于',
+  description: `关于 ${siteConfig.person.name} — 独立开发者、前端游戏研发工程师。6年全栈研发经验，曾任喜马拉雅游戏研发工程师。擅长 React/Next.js、Cocos Creator、WebGL、TypeScript。提供网站开发、产品前端、游戏互动应用、技术架构咨询服务。`,
+  openGraph: { title: `关于 — ${siteConfig.person.name}`, description: `关于 ${siteConfig.person.name} — 独立开发者、前端游戏研发工程师。`, images: [{ url: '/og-image.png', width: 1200, height: 630 }] },
+  twitter: { card: 'summary_large_image', title: `关于 — ${siteConfig.person.name}`, description: `关于 ${siteConfig.person.name} — 独立开发者、前端游戏研发工程师。`, images: ['/og-image.png'] },
+  alternates: { canonical: `${siteConfig.url}/about` },
+};
 
 export default function AboutPage() {
   const { person, aboutInterview } = siteConfig;
