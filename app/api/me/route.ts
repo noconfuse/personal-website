@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: '今天聊得够多啦，让我歇会儿——明天再来找我。' }, { status: 429 });
   }
 
-  let body: { messages?: unknown };
+  let body: { messages?: unknown; locale?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -110,7 +110,8 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: '这次对话太长了，开个新对话继续聊吧。' }, { status: 413 });
   }
 
-  const messages: ChatMessage[] = [{ role: 'system', content: getSystemPrompt() }, ...history];
+  const locale = body.locale === 'en' ? 'en' : 'zh';
+  const messages: ChatMessage[] = [{ role: 'system', content: getSystemPrompt(locale) }, ...history];
 
   try {
     // 第一轮：非流式，判断是否需要工具调用
@@ -144,7 +145,7 @@ export async function POST(request: NextRequest) {
       round += 1;
       messages.push({ role: 'assistant', content: choice?.content ?? '', tool_calls: toolCalls });
       for (const call of toolCalls) {
-        const result = executeTool(call.function.name, call.function.arguments);
+        const result = executeTool(call.function.name, call.function.arguments, locale);
         messages.push({ role: 'tool', content: result, tool_call_id: call.id });
       }
     }

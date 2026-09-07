@@ -1,5 +1,5 @@
 import { getItem, getItems } from '@/lib/content';
-import { siteConfig } from '@/config/site';
+import { getSiteConfig, type Locale } from '@/config/site';
 
 export type ToolCallSpec = { id: string; type: 'function'; function: { name: string; arguments: string } };
 export type ChatMessage = {
@@ -14,9 +14,10 @@ export type ToolDefinition = {
   function: { name: string; description: string; parameters: Record<string, unknown> };
 };
 
-function profileBlock(): string {
-  const person = siteConfig.person;
-  const interview = siteConfig.aboutInterview;
+function profileBlock(locale: Locale): string {
+  const config = getSiteConfig(locale);
+  const person = config.person;
+  const interview = config.aboutInterview;
   return [
     `## 关于 ${person.name} 的基本信息`,
     `- 身份：${person.role}，坐标 ${person.location}`,
@@ -24,7 +25,7 @@ function profileBlock(): string {
     `- 简介：${person.intro}`,
     `- 关于自己：${person.aboutLead} ${person.aboutDetail}`,
     `- 基本事实：${person.facts.map(([label, value]) => `${label}=${value}`).join('；')}`,
-    `- 社交：${siteConfig.social.filter((s) => s.href).map((s) => `${s.label} ${s.href}`).join('；')}`,
+    `- 社交：${config.social.filter((s: { label: string; href: string }) => s.href).map((s) => `${s.label} ${s.href}`).join('；')}`,
     '',
     `## ${person.name} 的自述访谈（他的真实观点，引用时保持第一人称）`,
     ...interview.questions.map((qa) => `问：${qa.question}\n答：${qa.answer}\n（他信奉的原则：${qa.principle}）`),
@@ -38,9 +39,9 @@ function profileBlock(): string {
   ].join('\n');
 }
 
-function indexBlock(): string {
-  const projects = getItems('project');
-  const posts = getItems('post');
+function indexBlock(locale: Locale): string {
+  const projects = getItems('project', locale);
+  const posts = getItems('post', locale);
   const projectLines = projects.map((item) => `- [项目] ${item.title}（slug: ${item.slug}）· ${item.date} · 标签：${item.tags.join('、')} · ${item.description}`);
   const postLines = posts.map((item) => `- [文章] ${item.title}（slug: ${item.slug}）· ${item.date} · 标签：${item.tags.join('、')} · ${item.description}`);
   return [
@@ -52,18 +53,20 @@ function indexBlock(): string {
   ].join('\n');
 }
 
-let cachedPrompt: string | null = null;
+const promptCache = new Map<Locale, string>();
 
-export function getSystemPrompt(): string {
-  if (cachedPrompt) return cachedPrompt;
-  cachedPrompt = [
-    siteConfig.ai.soul,
+export function getSystemPrompt(locale: Locale = 'zh'): string {
+  const cached = promptCache.get(locale);
+  if (cached) return cached;
+  const config = getSiteConfig(locale);
+  const prompt = [
+    config.ai.soul,
     '',
     '===== 以下是你的养分 =====',
     '',
-    profileBlock(),
+    profileBlock(locale),
     '',
-    indexBlock(),
+    indexBlock(locale),
     '',
     '## 工具使用原则',
     '- 上面只有目录：标题、简介、slug。当问题需要某个项目或文章的正文细节（怎么做的、技术实现、原文观点）时，调用对应工具把全文取出来再回答。',
@@ -71,12 +74,13 @@ export function getSystemPrompt(): string {
     '- 一次回答最多调用 2 次工具，别把时间花在翻资料上。',
     '',
     '## 链接规则（重要）',
-    '- 提到本站的项目或文章时，用 Markdown 链接指向站内详情页：项目用 `/projects/<slug>`，文章用 `/posts/<slug>`，slug 来自上面的目录。如：[命网 FateMesh](/projects/fatemesh)。',
+    '- 提到本站的项目或文章时，用 Markdown 链接指向站内详情页：项目用 `/projects/<slug>`（英文站用 `/en/projects/<slug>`），文章用 `/posts/<slug>`（英文站用 `/en/posts/<slug>`），slug 来自上面的目录。如：[命网 FateMesh](/projects/fatemesh)。',
     '- 提到项目线上地址时用完整链接（如 deerblock.top 的实际 URL）。一行里别堆太多链接，自然就好。',
     '- 只链接真实存在的 slug，绝不编造链接。',
     '===== 养分结束 =====',
   ].join('\n');
-  return cachedPrompt;
+  promptCache.set(locale, prompt);
+  return prompt;
 }
 
 export const toolDefinitions: ToolDefinition[] = [
@@ -119,7 +123,7 @@ export const toolDefinitions: ToolDefinition[] = [
 ];
 
 /** 执行工具调用，返回给模型的结果文本 */
-export function executeTool(name: string, argsJson: string): string {
+export function executeTool(name: string, argsJson: string, locale: Locale = 'zh'): string {
   let args: { slug?: string; query?: string };
   try {
     args = JSON.parse(argsJson || '{}');
@@ -129,9 +133,9 @@ export function executeTool(name: string, argsJson: string): string {
 
   if (name === 'get_project_detail') {
     const slug = String(args.slug ?? '');
-    const item = getItem('project', slug);
+    const item = getItem('project', slug, locale);
     if (!item) {
-      const known = getItems('project').map((p) => p.slug).join('、');
+      const known = getItems('project', locale).map((p) => p.slug).join('、');
       return `未找到 slug 为「${slug}」的项目。可用的 slug：${known}`;
     }
     return [`# ${item.title}`, `简介：${item.description}`, `标签：${item.tags.join('、')} · 日期：${item.date}`, item.link ? `在线地址：${item.link}` : '', '', String(item.content).slice(0, 8000)].filter(Boolean).join('\n');
@@ -139,9 +143,9 @@ export function executeTool(name: string, argsJson: string): string {
 
   if (name === 'get_post_detail') {
     const slug = String(args.slug ?? '');
-    const item = getItem('post', slug);
+    const item = getItem('post', slug, locale);
     if (!item) {
-      const known = getItems('post').map((p) => p.slug).join('、');
+      const known = getItems('post', locale).map((p) => p.slug).join('、');
       return `未找到 slug 为「${slug}」的文章。可用的 slug：${known}`;
     }
     return [`# ${item.title}`, `简介：${item.description}`, `标签：${item.tags.join('、')} · 日期：${item.date}`, '', String(item.content).slice(0, 6000)].join('\n');
@@ -151,12 +155,12 @@ export function executeTool(name: string, argsJson: string): string {
     const query = String(args.query ?? '').trim();
     if (!query) return '错误：请提供 query 关键词';
     const entries = [
-      ...getItems('project').map((item) => ({ kind: '项目', slug: item.slug, title: item.title, description: item.description })),
-      ...getItems('post').map((item) => ({ kind: '文章', slug: item.slug, title: item.title, description: item.description })),
+      ...getItems('project', locale).map((item) => ({ kind: '项目', slug: item.slug, title: item.title, description: item.description })),
+      ...getItems('post', locale).map((item) => ({ kind: '文章', slug: item.slug, title: item.title, description: item.description })),
     ];
     const hits = [];
     for (const entry of entries) {
-      const body = getItem(entry.kind === '项目' ? 'project' : 'post', entry.slug)?.content ?? '';
+      const body = getItem(entry.kind === '项目' ? 'project' : 'post', entry.slug, locale)?.content ?? '';
       const bodyIndex = body.indexOf(query);
       if (bodyIndex >= 0) {
         const start = Math.max(0, bodyIndex - 100);

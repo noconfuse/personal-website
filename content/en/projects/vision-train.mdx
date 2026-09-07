@@ -1,0 +1,37 @@
+---
+title: Vision Train
+description: A local, all-in-one workbench for vision models. Data prep, annotation, training, evaluation, export and deployment templates — unified in one Web UI.
+date: 2026-06-15
+type: tool
+tags: [Python, Vue, Computer Vision, Open Source]
+status: shipped
+featured: true
+color: ink
+link: https://vision-train-docs.netlify.app
+github: https://github.com/noconfuse/vision-train
+image: /projects/vision_train.png
+---
+
+A local, all-in-one workbench for vision models. Data preparation, annotation, training, evaluation, export and deployment templates — unified in a single Web UI around the loop of "project → dataset → annotation → training workflow → evaluation / export / deployment templates", across detect / classify / segment / pose tasks.
+
+## What it does
+
+**Data preparation**
+- Project management: isolate data and training records per project.
+- Import & organize: import existing data, split train sets, clean duplicates, merge datasets.
+- Video processing: upload, preview, extract frames into datasets.
+- Annotation: box targets, edit classes, bulk clean; draft annotations with an existing model, then review by hand.
+- Augmentation: generate reinforcing data for under-represented classes to ease imbalance.
+- Dataset versioning: publish / restore / auto-guided dataset snapshots.
+
+**Training & deployment**
+- Training: workflow-centric management of multiple training runs.
+- Evaluation: inspect test results and judge whether they meet expectations.
+- Export & deploy: generate model files for different environments, plus FastAPI / Python SDK / batch-processing template packs from `pt` or exported artifacts.
+- Task center: unified status for frame extraction, annotation, training, testing and export jobs.
+
+## Technical notes
+
+Front-end Vue 3 + Pinia + Vite + Tailwind CSS; back-end Flask + SQLAlchemy + Ultralytics (PyTorch) + OpenCV + OpenVINO; YOLO data format; jobs run in worker subprocesses with progress written back to a SQLite task table.
+
+Single-machine, single-project first. MIT licensed, open source: [github.com/noconfuse/vision-train](https://github.com/noconfuse/vision-train) · Docs: [vision-train-docs.netlify.app](https://vision-train-docs.netlify.app)

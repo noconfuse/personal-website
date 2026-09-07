@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 
 /** 极简 Markdown 渲染：段落 / 标题 / 列表 / 加粗 / 行内代码 / 链接，够聊天用 */
-function renderInline(text: string, keyPrefix: string): ReactNode[] {
+function renderInline(text: string, keyPrefix: string, locale: 'zh' | 'en' = 'zh'): ReactNode[] {
   const nodes: ReactNode[] = [];
   const pattern = /(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g;
   let lastIndex = 0;
@@ -21,8 +21,9 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
       if (linkMatch) {
         const href = linkMatch[2];
         if (href.startsWith('/')) {
+          const localizedHref = locale === 'en' && !href.startsWith('/en') ? `/en${href}` : href;
           nodes.push(
-            <Link key={`${keyPrefix}-l${index}`} href={href} className="chat-link">
+            <Link key={`${keyPrefix}-l${index}`} href={localizedHref} className="chat-link">
               {linkMatch[1]} ↗
             </Link>,
           );
@@ -42,7 +43,7 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
   return nodes;
 }
 
-export default function ChatMarkdown({ text }: { text: string }) {
+export default function ChatMarkdown({ text, locale = 'zh' }: { text: string; locale?: 'zh' | 'en' }) {
   const blocks: ReactNode[] = [];
   const lines = text.split('\n');
   let listBuffer: string[] = [];
@@ -53,7 +54,7 @@ export default function ChatMarkdown({ text }: { text: string }) {
       blocks.push(
         <ul key={`ul-${key++}`}>
           {listBuffer.map((item, itemIndex) => (
-            <li key={itemIndex}>{renderInline(item, `li-${key}-${itemIndex}`)}</li>
+            <li key={itemIndex}>{renderInline(item, `li-${key}-${itemIndex}`, locale)}</li>
           ))}
         </ul>,
       );
@@ -77,15 +78,15 @@ export default function ChatMarkdown({ text }: { text: string }) {
       const level = headingMatch[1].length;
       blocks.push(
         level === 1 ? (
-          <h3 key={`h-${key++}`}>{renderInline(headingMatch[2], `h1-${key}`)}</h3>
+          <h3 key={`h-${key++}`}>{renderInline(headingMatch[2], `h1-${key}`, locale)}</h3>
         ) : (
-          <h4 key={`h-${key++}`}>{renderInline(headingMatch[2], `h2-${key}`)}</h4>
+          <h4 key={`h-${key++}`}>{renderInline(headingMatch[2], `h2-${key}`, locale)}</h4>
         ),
       );
       continue;
     }
     if (/^\d+\.\s/.test(line)) {
-      blocks.push(<p className="chat-ordered" key={`p-${key++}`}>{renderInline(line.replace(/^\d+\.\s/, '· '), `p-${key}`)}</p>);
+      blocks.push(<p className="chat-ordered" key={`p-${key++}`}>{renderInline(line.replace(/^\d+\.\s/, '· '), `p-${key}`, locale)}</p>);
       continue;
     }
     blocks.push(<p key={`p-${key++}`}>{renderInline(line, `p-${key}`)}</p>);

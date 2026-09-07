@@ -1,12 +1,14 @@
 import { getItems } from '@/lib/content';
-import { siteConfig } from '@/config/site';
+import { getSiteConfig } from '@/config/site';
+const siteConfig = getSiteConfig('zh');
+const { url: siteUrl } = siteConfig;
 
 function esc(value: string) {
   return value.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>').replace(/"/g, '"');
 }
 
 export function GET() {
-  const base = siteConfig.url;
+  const base = siteUrl;
   const posts = getItems('post');
   const items = posts.map((post) => `
     <item>
