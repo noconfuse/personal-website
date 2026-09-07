@@ -1,5 +1,5 @@
 export const siteConfig = {
-  url: 'https://person.deerblock.cn',
+  url: 'https://zone.deerblock.cn',
   person: {
     name: '鹿码人',
     role: '独立开发者 / 前端游戏研发工程师',
