@@ -25,7 +25,7 @@ export default function LangLayout({ children, params }: { children: React.React
   const contactHref = locale === 'en' ? '/en#contact' : '/#contact';
   const switchHref = locale === 'en' ? '/' : '/en';
   const switchLabel = locale === 'en' ? '中文' : 'EN';
-  const alt = localeAlternates(locale === 'en' ? '/en' : '/');
+  const alt = localeAlternates('/');
 
   return (
     <html lang={locale === 'en' ? 'en' : 'zh-CN'} suppressHydrationWarning>
