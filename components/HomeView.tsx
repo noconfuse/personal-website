@@ -25,7 +25,7 @@ export function HomePage({ locale }: { locale: Locale }) {
 export function homeMetadata(locale: Locale): Metadata {
   const config = getSiteConfig(locale);
   const description = locale === 'en'
-    ? `${config.person.name} — independent developer in Shanghai. 6 years of front-end experience, React/Next.js, Cocos Creator games, WebGL. Maker of FateMesh, SpaceRoam, Toolkit.`
-    : `${config.person.name} — ${config.person.role}。6年全栈研发经验，擅长 React/Next.js、Cocos Creator 游戏开发、WebGL 可视化。独立打造 FateMesh（AI 命理平台）、SpaceRoam（3D 漫游工具）等产品。`;
+    ? `${config.person.name} — independent developer in Shanghai. 10 years of development: web front-end, game front-end at Ximalaya, now indie. TypeScript, React, Vue, Cocos Creator, Electron, Tauri, AI Agent. Maker of FateMesh, SpaceRoam, Toolkit.`
+    : `${config.person.name} — ${config.person.role}。10 年开发经验（Web 前端 / 游戏前端 / 独立开发），擅长 TypeScript、React、Vue、Cocos Creator、Electron、Tauri、AI Agent。独立打造 FateMesh（AI 命理智能体平台）、SpaceRoam（3D 漫游工具）等产品。`;
   return { ...sharedMetadataFields, ...buildMetadata(locale, locale === 'en' ? '/en' : '/', { title: `${config.person.name} — ${config.person.role}`, description }) };
 }

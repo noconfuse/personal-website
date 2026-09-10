@@ -37,11 +37,11 @@ export function buildLayoutMetadata(locale: Locale): Metadata {
     metadataBase: new URL(getSiteConfig(locale).url),
     title: { default: `${config.person.name} — ${config.person.role}`, template: `%s — ${config.person.name}` },
     description: locale === 'en'
-      ? `${config.person.name} — independent developer in Shanghai. 6 years of front-end experience. TypeScript, React, Cocos Creator, games and interactive development.`
-      : `${config.person.name} 的个人作品与思考。独立开发者，6年前端研发经验，擅长 TypeScript、React、Cocos Creator、游戏互动开发。`,
+      ? `${config.person.name} — independent developer in Shanghai. 10 years of development: web front-end, game front-end at Ximalaya, now indie. TypeScript, React, Vue, Cocos Creator, Electron, Tauri, AI Agent.`
+      : `${config.person.name} 的个人作品与思考。独立开发者，10 年开发经验（前端 / 游戏 / 独立开发），擅长 TypeScript、React、Vue、Cocos Creator、Electron、Tauri、AI Agent。`,
     keywords: locale === 'en'
-      ? ['LuMaRen', 'indie developer', 'front-end developer', 'Cocos Creator', 'React', 'Next.js', 'TypeScript', 'portfolio', 'FateMesh', 'SpaceRoam']
-      : ['鹿码人', '鲍磊', '独立开发者', '前端开发', '游戏研发', 'Cocos Creator', 'React', 'Next.js', 'TypeScript', '作品集', '个人网站', 'FateMesh', 'SpaceRoam'],
+      ? ['LuMaRen', 'indie developer', 'full-stack developer', 'AI Agent', 'Cocos Creator', 'React', 'Vue', 'TypeScript', 'Electron', 'Tauri', 'portfolio', 'FateMesh', 'SpaceRoam']
+      : ['鹿码人', '鲍磊', '独立开发者', '全栈开发', 'AI Agent', '前端开发', '游戏研发', 'Cocos Creator', 'React', 'Vue', 'TypeScript', 'Electron', 'Tauri', '作品集', '个人网站', 'FateMesh', 'SpaceRoam'],
     alternates: {
       canonical: locale === 'en' ? `${getSiteConfig(locale).url}/en` : getSiteConfig(locale).url,
       languages: { 'zh-CN': alt.zh, 'en': alt.en, 'x-default': alt.zh },

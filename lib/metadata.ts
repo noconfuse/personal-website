@@ -9,8 +9,8 @@ export function buildMetadata(locale: Locale, path: string, overrides?: { title?
   const canonical = locale === 'en' ? alt.en : alt.zh;
   const title = overrides?.title ?? `${config.person.name} — ${config.person.role}`;
   const description = overrides?.description ?? (locale === 'en'
-    ? `${config.person.name} — independent developer in Shanghai. 6 years of front-end experience, TypeScript, React, Cocos Creator, games and interactive development.`
-    : `${config.person.name} 的个人作品与思考。独立开发者，6年前端研发经验，擅长 TypeScript、React、Cocos Creator、游戏互动开发。`);
+    ? `${config.person.name} — independent developer in Shanghai. 10 years of development: web front-end, game front-end at Ximalaya, now indie. TypeScript, React, Vue, Cocos Creator, Electron, Tauri, AI Agent.`
+    : `${config.person.name} 的个人作品与思考。独立开发者，10 年开发经验（前端 / 游戏 / 独立开发），擅长 TypeScript、React、Vue、Cocos Creator、Electron、Tauri、AI Agent。`);
   const ogLocale = locale === 'en' ? 'en_US' : 'zh_CN';
 
   return {

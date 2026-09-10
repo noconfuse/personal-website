@@ -36,8 +36,8 @@ export function AboutView({ locale }: { locale: Locale }) {
 export function aboutMetadata(locale: Locale): Metadata {
   const config = getSiteConfig(locale);
   const description = locale === 'en'
-    ? `About ${config.person.name} — indie developer, front-end & game engineer. 6 years of full-stack experience, formerly at Ximalaya. React/Next.js, Cocos Creator, WebGL, TypeScript. Websites, product front-ends, interactive apps, architecture consulting.`
-    : `关于 ${config.person.name} — 独立开发者、前端游戏研发工程师。6年全栈研发经验，曾任喜马拉雅游戏研发工程师。擅长 React/Next.js、Cocos Creator、WebGL、TypeScript。提供网站开发、产品前端、游戏互动应用、技术架构咨询服务。`;
+    ? `About ${config.person.name} — indie developer, 10 years of development. Web front-end, game front-end at Ximalaya (Phaser.js/Cocos Creator), now indie. TypeScript, React, Vue, Node.js, Electron, Tauri, Python, AI Agent. Websites, product front-ends, interactive apps, architecture consulting.`
+    : `关于 ${config.person.name} — 独立开发者，10 年开发经验。前 3 年 Web 前端（JavaScript/TypeScript/Node.js/React/Vue），3 年喜马拉雅游戏前端（Phaser.js/Cocos Creator），现为独立开发（Python/Electron/Tauri 等）。擅长 TypeScript、React、Vue、Cocos Creator、Electron、Tauri、AI Agent。提供网站开发、产品前端、游戏互动应用、技术架构咨询服务。`;
   const title = locale === 'en' ? 'About' : '关于';
   return { ...sharedMetadataFields, ...buildMetadata(locale, locale === 'en' ? '/en/about' : '/about', { title, description }) };
 }
